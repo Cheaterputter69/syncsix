@@ -4,10 +4,13 @@ export async function handler(event) {
     const { league, season, from, to } = event.queryStringParameters;
 
     if (!league || !season || !from || !to) {
-      return { statusCode: 400, body: JSON.stringify({ error: "Missing parameters" }) };
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: "Missing parameters" }),
+      };
     }
 
-    // 🧭 Call API-Sports Football endpoint
+    // 🧭 Call API-Sports Football endpoint (single fetch)
     const apiRes = await fetch(
       `https://v3.football.api-sports.io/fixtures?league=${league}&season=${season}&from=${from}&to=${to}`,
       {
@@ -31,7 +34,10 @@ export async function handler(event) {
     console.error("❌ fetchGames error:", err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Server error", details: err.message }),
+      body: JSON.stringify({
+        error: "Server error",
+        details: err.message,
+      }),
     };
   }
 }
